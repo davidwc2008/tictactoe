@@ -6,13 +6,12 @@ TicTacToe Program in C++
 
 //include libraries
 #include <iostream>
-#include <stdlib.h>
 
 using namespace std;
-//declare global variables (not allowed) and other functions
-void board(char array[4][4], int X, int O, int T);
+//declare functions
+void board(char array[4][4]);
+void totals(int X, int O, int T);
 void changeboard(char array[4][4], char input [2], char player);
-void changeplayer(char player);
 void clear(char array[4][4]);
 char win(char array[4][4]);
 
@@ -28,31 +27,37 @@ int main()
   int O = 0;
   int T = 0;
 
+  //main while loop to play again
   while (again == 'y')
     {
       cout << "Welcome to the TicTacToe Game!" << endl;
       clear(array);
-      board(array, X, O, T);
+      board(array);
+      //second while loop to continue inputting moves
       while (win(array) == '/')
 	{
 	  cout << "Input move (ex: a1): " << endl;
 	  cin >> input;
 	  changeboard(array, input, player);
-	  board(array, X, O, T);
-	  
+	  board(array);
+  
 	  if (win(array) == 'X'){
 	    cout << "X wins!" << endl;
 	    X++;
+	    totals(X, O, T);
 	    break;
 	  }else if (win(array) == 'O'){
 	    cout << "O wins!" << endl;
 	    O++;
+	    totals(X, O, T);
 	    break;
 	  }else if (win(array) == 'T'){
 	    cout << "Tie!" << endl;
 	    T++;
+	    totals(X, O, T);
 	    break;
 	  }
+	  //change player
 	  if (player == 'X')
 	    player = 'O';
 	  else
@@ -73,11 +78,16 @@ void clear(char array[4][4])
       array[i][j] = ' ';
     }
   }
+}
 
+//print wins and ties
+void totals(int X, int O, int T)
+{
+  cout << "X wins: " << X << " | O wins: " << O << " | Ties: " << T << endl;
 }
 
 //print board function
-void board(char array[4][4], int X, int O, int T)
+void board(char array[4][4])
 {
 
   for (int i = 0; i < 4; i++){
@@ -86,48 +96,60 @@ void board(char array[4][4], int X, int O, int T)
     }
     cout << endl;
   }
-  //print this statement only at the conclusion of the game
-  cout << "X wins: " << X << " | O wins: " << O << " | Ties: " << T << endl;
 }
 
+//background- change the array
 void changeboard(char array[4][4], char input [2], char player)
 {
-
-  if ((input[0] == 'a') && (input[1] == '1')) {
-    cout << "Your move is legal." << endl;
-    array[1][1] = player;
-  }else if ((input[0] == 'a') && (input[1] == '2')){
-    cout << "Your move is legal." << endl;
-    array[1][2] = player;
-  }else if ((input[0] == 'a') && (input[1] == '3')){
-    cout << "Your move is legal." << endl;
-    array[1][3] = player;
-  }else if ((input[0] == 'b') && (input[1] == '1')){
-    cout << "Your move is legal." << endl;
-    array[2][1] = player;
-  }else if ((input[0] == 'b') && (input[1] == '2')){
-    cout << "Your move is legal." << endl;
-    array[2][2] = player;
-  }else if ((input[0] == 'b') && (input[1] == '3')){
-    cout << "Your move is legal." << endl;
-    array[2][3] = player;
-  }else if ((input[0] == 'c') && (input[1] == '1')){
-    cout << "Your move is legal." << endl;
-    array[3][1] = player;
-  }else if ((input[0] == 'c') && (input[1] == '2')){
-    cout << "Your move is legal." << endl;
-    array[3][2] = player;
-  }else if ((input[0] == 'c') && (input[1] == '3')){
-    cout << "Your move is legal." << endl;
-    array[3][3] = player;
-  }else{
-    cout << "Your move is illegal. Try again: " << endl;
-    cin >> input;
-  }
+  while (1)
+    {
+      if ((input[0] == 'a') && (input[1] == '1') && (array[1][1] == ' ')) {
+	cout << "Your move is legal." << endl;
+	array[1][1] = player;
+	break;
+      }else if ((input[0] == 'a') && (input[1] == '2') && (array[1][2] == ' ')) {
+	cout << "Your move is legal." << endl;
+	array[1][2] = player;
+	break;
+      }else if ((input[0] == 'a') && (input[1] == '3') && (array[1][3] == ' ')) {
+	cout << "Your move is legal." << endl;
+	array[1][3] = player;
+	break;
+      }else if ((input[0] == 'b') && (input[1] == '1') && (array[2][1] == ' ')) {
+	cout << "Your move is legal." << endl;
+	array[2][1] = player;
+	break;
+      }else if ((input[0] == 'b') && (input[1] == '2') && (array[2][2] == ' ')) {
+	cout << "Your move is legal." << endl;
+	array[2][2] = player;
+	break;
+      }else if ((input[0] == 'b') && (input[1] == '3') && (array[2][3] == ' ')) {
+	cout << "Your move is legal." << endl;
+	array[2][3] = player;
+	break;
+      }else if ((input[0] == 'c') && (input[1] == '1') && (array[3][1] == ' ')) {
+	cout << "Your move is legal." << endl;
+	array[3][1] = player;
+	break;
+      }else if ((input[0] == 'c') && (input[1] == '2') && (array[3][2] == ' ')) {
+	cout << "Your move is legal." << endl;
+	array[3][2] = player;
+	break;
+      }else if ((input[0] == 'c') && (input[1] == '3') && (array[3][3] == ' ')) {
+	cout << "Your move is legal." << endl;
+	array[3][3] = player;
+	break;
+      }else{
+	cout << "Your move is illegal. Try again: " << endl;
+	cin >> input;
+      }
+    }
 }
 
-char win(char array[4][4]){
-  //first player
+//check win, tie, or other
+char win(char array[4][4])
+{
+  //first player win
   if ((array[1][1] == 'X') && (array[1][2] == 'X') && (array [1][3] == 'X'))
     return 'X';
   if ((array[2][1] == 'X') && (array[2][2] == 'X') && (array [2][3] == 'X'))
@@ -147,7 +169,7 @@ char win(char array[4][4]){
   if ((array[1][1] == 'X') && (array[2][2] == 'X') && (array [3][3] == 'X'))
     return 'X';
 
-  //second player
+  //second player win
   if ((array[1][1] == 'O') && (array[1][2] == 'O') && (array [1][3] == 'O'))
     return 'O';
   if ((array[2][1] == 'O') && (array[2][2] == 'O') && (array [2][3] == 'O'))
@@ -170,18 +192,10 @@ char win(char array[4][4]){
   //if tie or other
   for (int i = 1; i < 4; i++){
     for (int j = 1; j < 4; j++){
-      if ((array[i][j] != 'X') || (array[i][j] != 'O'))
+      if (array[i][j] == ' '){
 	return '/';
-      else
-	return 'T';
-    }
+      }
+      }
   }
-
-}
-
-void changeplayer(char player){
-  if (player == 'X')
-    player = 'O';
-  else
-    player = 'X';
+  return 'T';
 }
