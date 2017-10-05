@@ -13,6 +13,7 @@ using namespace std;
 void board(char array[4][4], int X, int O, int T);
 void changeboard(char array[4][4], char input [2], char player);
 void changeplayer(char player);
+void clear(char array[4][4]);
 char win(char array[4][4]);
 
 //main function
@@ -30,14 +31,15 @@ int main()
   while (again == 'y')
     {
       cout << "Welcome to the TicTacToe Game!" << endl;
+      clear(array);
       board(array, X, O, T);
-      while (1)
+      while (win(array) == '/')
 	{
 	  cout << "Input move (ex: a1): " << endl;
 	  cin >> input;
 	  changeboard(array, input, player);
 	  board(array, X, O, T);
-	  changeplayer(player);
+	  
 	  if (win(array) == 'X'){
 	    cout << "X wins!" << endl;
 	    X++;
@@ -51,17 +53,33 @@ int main()
 	    T++;
 	    break;
 	  }
+	  if (player == 'X')
+	    player = 'O';
+	  else
+	    player = 'X';
 	}
       cout << "Would you like to play again?  Press y for yes and n for no." << endl;
       cin >> again;
       
-   return 0;
     }
+  return 0;
+}
+
+//clear board function
+void clear(char array[4][4])
+{
+  for (int i = 1; i < 4; i++){
+    for (int j = 1; j < 4; j++){
+      array[i][j] = ' ';
+    }
+  }
+
 }
 
 //print board function
 void board(char array[4][4], int X, int O, int T)
 {
+
   for (int i = 0; i < 4; i++){
     for (int j = 0; j < 4; j++){
       cout << array[i][j] << " ";
@@ -149,16 +167,16 @@ char win(char array[4][4]){
   if ((array[1][1] == 'O') && (array[2][2] == 'O') && (array [3][3] == 'O'))
     return 'O';
 
-  //if tie
+  //if tie or other
   for (int i = 1; i < 4; i++){
     for (int j = 1; j < 4; j++){
-      if ((array[i][j] == 'X') || (array[i][j] == 'O'))
+      if ((array[i][j] != 'X') || (array[i][j] != 'O'))
+	return '/';
+      else
 	return 'T';
     }
   }
 
-  //if no win, loss, or tie
-  return '/';
 }
 
 void changeplayer(char player){
